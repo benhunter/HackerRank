@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "args": ["<", "${fileDirname}/input00.txt"]
+            "args": ["<", "${fileDirname}/input11.txt"]
         }
     ]
 }
