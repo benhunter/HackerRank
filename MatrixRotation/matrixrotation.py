@@ -10,7 +10,7 @@ from collections import deque
 from copy import deepcopy
 
 
-DEBUG = True
+DEBUG = False
 
 # Complete the matrixRotation function below.
 def matrixRotation(matrix, rotations):
@@ -82,15 +82,65 @@ def matrixRotation(matrix, rotations):
     for ring in rings:
         rots = rotations % len(ring)
         for i in range(rots):
-            ring.append(ring.popleft())
+            ring.appendleft(ring.pop())
     if DEBUG: print(rings)
 
     # output
-    rot_rings = deepcopy(rings)
-
-    for count, ring in enumerate(rings):
-        if DEBUG: print(count, ring)
+    # rot_rings = deepcopy(rings)
+    
+    if DEBUG: print('Building new matrix.')
+    rot_matrix = deepcopy(matrix)
+    
+    for current_ring, ring in enumerate(rings):
+        if DEBUG: print("ring:", current_ring, ring)
+        # if DEBUG: print('down:', down, 'right:', right)
         
+        start_pos = {'row': current_ring, 'column': current_ring}
+        if DEBUG: print(' start pos', start_pos)
+
+        down = rows - (current_ring * 2)
+        if DEBUG: print(' down', down)
+        
+        right = columns - (current_ring * 2)
+        if DEBUG: print(' right', right)
+
+        # down
+        if DEBUG: print('   down')
+        for i in range(down):
+            current_row = start_pos['row'] + i
+            current_column = start_pos['column']
+            rot_matrix[current_row][current_column] = ring.popleft()
+            if DEBUG: print('  ', current_row, current_column, rot_matrix[current_row][current_column])
+        
+        # right
+        if DEBUG: print('   right')
+        for i in range(right - 1):
+            current_row = start_pos['row'] + down - 1
+            current_column = start_pos['column'] + i + 1
+            rot_matrix[current_row][current_column] = ring.popleft()
+            if DEBUG: print('  ', current_row, current_column, rot_matrix[current_row][current_column])
+        
+        # up
+        if DEBUG: print('   up')
+        for i in range(down - 1):
+            current_row = start_pos['row'] + down - 2 - i
+            current_column = start_pos['column'] - 1 + right
+            rot_matrix[current_row][current_column] = ring.popleft()
+            if DEBUG: print('  ', current_row, current_column, rot_matrix[current_row][current_column])
+
+        # left
+        if DEBUG: print('   left')
+        for i in range(right - 2):
+            current_row = start_pos['row']
+            current_column = start_pos['column'] - 2 + right - i
+            rot_matrix[current_row][current_column] = ring.popleft()
+            if DEBUG: print('  ', current_row, current_column, rot_matrix[current_row][current_column])
+    
+    for row in rot_matrix:
+        if DEBUG: print(row)
+        for item in row:
+            print(item, end=' ')
+        print()
 
 
 
