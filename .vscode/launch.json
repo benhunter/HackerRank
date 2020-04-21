@@ -11,7 +11,7 @@
             "program": "${file}",
             "console": "integratedTerminal",
             // "args": ["<", "${fileDirname}/input/input00.txt"]  // Linux
-            "args": ["${fileDirname}/input/input01.txt"]
+            "args": ["${fileDirname}/input/input00.txt"]
         }
     ]
 }
